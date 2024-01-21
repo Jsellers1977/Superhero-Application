@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superhero Search</title>
+    <!-- Add Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Dynamic grid layout */
+        .card-columns {
+            columns: auto;
+        }
+        .card-body {
+            background-color: #f1f1f1;
+        }
+        #searchResults {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        /* Single column layout */
+        .single-column .card-columns {
+            column-count: 1;
+        }
+        .card-title {
+        border-bottom: 1px solid #1e1d1d;
+        padding-bottom: .65em;
+        }
+    </style>
+</head>
+<body>
+<div class="bg-dark text-secondary px-4 py-5 text-center">
+    <div class="py-5">
+      <h1 class="display-5 fw-bold text-white">Superhero Application</h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="fs-5 mb-4">Unleash your inner fan and embark on an unforgettable journey of discovery. Begin your quest now and unlock the secrets of your favorite hero or villain!</p>
+        <!-- Search Bar -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="superheroInput" placeholder="Search for a superhero..." aria-describedby="searchButton">
+            <button class="btn btn-outline-primary" type="button" id="searchButton">Search</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <!-- Display Search Results -->
+    <div id="searchResults" class="card-columns"></div>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js for Bootstrap functionality -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Add jQuery (required for Bootstrap JS) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Your custom JavaScript -->
+<script>
+    // Event listener for the search button
+    document.getElementById('searchButton').addEventListener('click', function () {
+        // Get the value from the input
+        var searchTerm = document.getElementById('superheroInput').value;
+
+        // Call the Superhero API with the search term
+        fetch(`https://www.superheroapi.com/api.php/10225177006154799/search/${searchTerm}`)
+            .then(response => response.json())
+            .then(data => {
+                // Display the search results
+                if (data.response === "success") {
+                    displayResults(data.results);
+                } else {
+                    displayNoResults();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    // Function to display search results
+function displayResults(results) {
+    var resultsContainer = document.getElementById('searchResults');
+    resultsContainer.innerHTML = ''; // Clear previous results
+
+    // Iterate through each result and display relevant information
+    results.forEach(function (result) {
+        var resultCard = document.createElement('div');
+        resultCard.className = 'col-md-4 mb-3'; // Create a column with a width of 4 out of 12 (medium devices)
+
+        // Rest of the code...
+
+        resultsContainer.appendChild(resultCard);
+    });
+
+
+        // Iterate through each result and display relevant information
+        results.forEach(function (result) {
+            var resultCard = document.createElement('div');
+            resultCard.className = 'card mb-3';
+
+            var cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            var heroName = document.createElement('h4');
+            heroName.className = 'card-title';
+            heroName.textContent = result.name;
+
+            var heroPowers = document.createElement('h5');
+            heroPowers.className = 'card-text';
+            heroPowers.textContent = `Powers`;
+
+            var heroIntelligence = document.createElement('p');
+            heroIntelligence.className = 'card-text';
+            heroIntelligence.textContent = `Intelligence: ${result.powerstats.intelligence || 'N/A'}`;
+
+            var heroPower = document.createElement('p');
+            heroPower.className = 'card-text';
+            heroPower.textContent = `Intelligence: ${result.powerstats.intelligence || 'N/A'} ✦ Strength: ${result.powerstats.strength || 'N/A'} ✦ Speed: ${result.powerstats.speed || 'N/A'} ✦ Durability: ${result.powerstats.durability || 'N/A'} ✦ Power: ${result.powerstats.power || 'N/A'} ✦ Combat: ${result.powerstats.combat || 'N/A'}`;
+
+            var heroFeatures = document.createElement('h5');
+            heroFeatures.className = 'card-text';
+            heroFeatures.textContent = `Features`;
+
+            var heroAppearance = document.createElement('p');
+            heroAppearance.className = 'card-text';
+            heroAppearance.textContent = `Race: ${result.appearance["race"] || 'N/A'} ✦ Gender: ${result.appearance.gender || 'N/A'} ✦ Height: ${result.appearance.height || 'N/A'} ✦ Weight: ${result.appearance.weight || 'N/A'}`;
+
+            var heroBio = document.createElement('h5');
+            heroBio.className = 'card-text';
+            heroBio.textContent = `Biography`;
+
+            // Handle Biography
+            var heroBiography = document.createElement('p');
+            heroBiography.className = 'card-text';
+            heroBiography.textContent = `First Appreance: ${result.biography["first-appearance"] || 'N/A'} ✦ Publisher: ${result.biography["publisher"] || 'N/A'} ✦ Alignment: ${result.biography["alignment"] || 'N/A'}`;
+
+            var heroPlaceOfBirth = document.createElement('p');
+            heroPlaceOfBirth.className = 'card-text';
+            heroPlaceOfBirth.textContent = `Place of Birth: ${result.biography["place-of-birth"] || 'N/A'}`;
+
+            var heroWork = document.createElement('p');
+            heroWork.className = 'card-text';
+            heroWork.textContent = `Work: ${result.work
+
+.occupation || 'N/A'}`;
+
+            var heroBase = document.createElement('p');
+            heroBase.className = 'card-text';
+            heroBase.textContent = `Base of Operation: ${result.work.base || 'N/A'}`;
+
+            var heroAlterEgos = document.createElement('p');
+            heroAlterEgos.className = 'card-text';
+            heroAlterEgos.textContent = `Alter Egos: ${result.biography["alter-egos"] || 'N/A'} Alias: ${result.biography["alias"] || 'N/A'}`;
+
+            var heroConnections = document.createElement('p');
+            heroConnections.className = 'card-text';
+            heroConnections.textContent = `Connections: ${result.connections.groupAffiliation || 'N/A'} ✦ Relatives: ${result.connections.relatives || 'N/A'}`;
+
+            var heroImage = document.createElement('img');
+            heroImage.className = 'card-img-top';
+            heroImage.src = result.image.url;
+            heroImage.alt = result.name;
+
+            cardBody.appendChild(heroName);
+            cardBody.appendChild(heroPowers);
+            cardBody.appendChild(heroPower);
+            cardBody.appendChild(heroFeatures);
+            cardBody.appendChild(heroAppearance);
+            cardBody.appendChild(heroBio);
+            cardBody.appendChild(heroBiography);
+            cardBody.appendChild(heroAlterEgos);
+            cardBody.appendChild(heroPlaceOfBirth);
+            cardBody.appendChild(heroWork);
+            cardBody.appendChild(heroBase);
+            cardBody.appendChild(heroConnections);
+            resultCard.appendChild(heroImage);
+            resultCard.appendChild(cardBody);
+
+            resultsContainer.appendChild(resultCard);
+        });
+    }
+
+    // Function to display "No Results Found" message
+    function displayNoResults() {
+        var resultsContainer = document.getElementById('searchResults');
+        resultsContainer.innerHTML = '<p style="color: #d9534f" class="text-center">No hero found.</p>';
+    }
+</script>
+
+</body>
+</html>
